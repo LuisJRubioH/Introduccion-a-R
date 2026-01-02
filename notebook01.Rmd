@@ -1,0 +1,22 @@
+---
+title: "Variables en R"
+output:
+  pdf_document: default
+  html_notebook: default
+---
+Para crear una variable en R hay que asignarle un valor mediante una operación
+llamada asignación. La asignación consta de tres elementos:
+
+1.  el identificador o nombre de la variable
+
+2.  el operador de asignación
+
+3.  una expresión que produce el valor a asignar
+
+```{r}
+# Variable en R
+x <- 5
+x
+```
+
+
