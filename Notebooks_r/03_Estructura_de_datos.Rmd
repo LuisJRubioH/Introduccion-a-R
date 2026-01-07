@@ -1,0 +1,112 @@
+---
+title: "Estructura de datos en R"
+author: "Luis J Rubio"
+date: "2026-01-07"
+output: html_document
+---
+# **Estructura de datos en R**
+
+*R* es capaz de manejar una variedad de tipos de datos, que se almacenan en
+diferentes estructuras de datos como: *vector*, *matriz* y *array*.
+
+## **Vectores** 
+
+Un vector corresponde a un conjunto ordenado de elementos que reúnen la
+condición de pertenecer al mismo tipo de dato atómico. Los vectores son la
+estructura de datos más básica en R.
+
+Todos los vectores tienen tres propiedades:
+
+- ***Tipo***: que se puede determinar con la función *typeof()*. Un vector tiene el mismo
+tipo que los datos que contiene. Si tenemos un vector que contiene datos de tipo
+numérico, el vector será también de tipo numérico. Los vectores son atómicos,
+pues sólo pueden contener datos de un sólo tipo, no es posible mezclar datos de
+tipos diferentes dentro de ellos.
+
+- ***Longitud***: que se puede determinar con la función  *length()* . Es el número de
+elementos que contiene un vector. La longitud es la única dimensión que tiene
+esta estructura de datos.
+
+- ***Atributos***. Un atributo es una parte de información que se puede adjuntar a un
+vector o cualquier objeto de R. El atributo no afectará a ningún valor del objeto.
+
+Podríamos denominar a los atributos como metadata que describen
+características de los datos que contienen. Los atributos más comunes de un
+vector atómico son los nombres, dimensiones y clases.
+
+Como los vectores son la estructura de datos más sencilla de R, datos simples como
+el número 3, son en realidad vectores. En este caso, un vector de tipo numérico y
+largo igual a 1.
+
+```{r}
+x <- 3
+x
+```
+ notaremos la indicación [1], previa al valor asignado,
+indicando que el primer elemento del vector corresponde al primer elemento del
+renglón que se muestra. Esto es porque R, por defecto, crea vectores de longitud 1 para nuestra variable.
+
+Podemos verificar que un objeto es un vector utilizando la función  *is.vector()*
+
+```{r}
+is.vector(3)
+```
+### **Creación de vectores**
+
+#### **Usando la función combinar (o concatenar) c()**
+
+La única restricción es que los objetos a concatenar deben ser del mismo tipo.
+
+```{r}
+vect1 <- c(-3, 2, 5.5)
+
+vect1
+
+#verificar si es un vector
+is.vector(vect1)
+          
+#clase del vector
+class(vect1)
+
+#tipo de vector
+typeof(vect1)
+```
+
+```{r}
+vect2 <- c("Manzana", "Naranja", "Pera")
+
+vect2
+
+#verificar si es un vector
+is.vector(vect2)
+          
+#clase del vector
+class(vect2)
+
+#tipo de vector
+typeof(vect2)
+```
+*¿qué pasa si intentamos concatenar objetos que no son del mismo tipo?*
+
+R automáticamente transforma las componentes a un mismo tipo. En el caso del
+vector  z , los elementos que queremos concatenar son de tipo numérico y carácter.
+Luego (otra vez recordar de lo más restrictivo a lo más flexible)
+
+```{r}
+ vect3 <- c(FALSE, 5)
+
+vect3
+
+#verificar si es un vector
+is.vector(vect3)
+          
+#clase del vector
+class(vect3)
+
+#tipo de vector
+typeof(vect3)
+```
+
+
+
+  
