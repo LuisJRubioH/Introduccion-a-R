@@ -53,7 +53,7 @@ is.vector(3)
 ```
 ### **Creación de vectores**
 
-#### **Usando la función combinar (o concatenar) c()**
+#### **Creación de vectores usando la función combinar (o concatenar) c()**
 
 La única restricción es que los objetos a concatenar deben ser del mismo tipo.
 
@@ -106,7 +106,64 @@ class(vect3)
 #tipo de vector
 typeof(vect3)
 ```
+#### **Concatenar dos o más vectores**
+
+```{r}
+v1 <- c(-2,4,6,9)
+v2 <- c(5,-5,2,0)
+
+v3 <- c(v1, v2)
+v3
+```
+Al concatenar vectores el orden importa
+
+```{r}
+v1 <- c(-2,4,6,9)
+v2 <- c(5,-5,2,0)
+
+v4 <-c(v2, v1)
+v4
+```
+```{r}
+v3 == v4
+```
+#### **Creación de vectores usando la función vector()**
+
+a función **vector()** crea un vector del tipo y longitud que se especifican como
+argumentos en el momento de su declaración:
+
+```{r}
+vec1 <- vector(mode = "numeric", length = 5)
+vec1
+
+vec2 <- vector(mode = "integer", length = 5)
+vec2
+
+vec3 <- vector(mode = "logical", length = 5)
+vec3
+
+vec4 <- vector(mode = "character", length = 5)
+vec4
+```
+Otra forma de crear vectores es hacer uso de las funciones wrapper (del inglés, envoltorio o
+contenedoras, es una función que llama a una o varias funciones, unas veces
+únicamente por convenio y otras para adaptarlas con el objetivo de hacer una tarea
+ligeramente diferente) que existen para cada tipo de datos. Las siguientes
+instrucciones son equivalentes a las anteriores:
 
 
+```{r}
+vector_numeric <- numeric(5)
+vector_numeric
 
-  
+vector_integer <- integer(5)
+vector_integer
+
+vector_logical <- logical(5)
+vector_integer
+
+vector_character <- character(5)
+vector_character
+```
+
+ 
