@@ -8,3 +8,12 @@ vect_1
 
 #verificamos la longitud del vecor
 length(vect_1)
+
+
+# concatebar dos o más vectors
+
+v1 <- c(-2,4,6,9)
+v2 <- c(5,-5,2,0)
+
+v3 <- c(v1, v2)
+v3
