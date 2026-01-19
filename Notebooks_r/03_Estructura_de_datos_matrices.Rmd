@@ -1,0 +1,64 @@
+---
+title: "Estructura de datos en R - Matrices"
+author: "Luis J rubio"
+date: "2026-01-19"
+output: html_document
+---
+
+## **Matrices**
+Podemos pensar en las matrices como vectores multidimensionales. Al igual que un
+vector, únicamente pueden contener datos de un sólo tipo.
+Las matrices son arreglos rectangulares de filas ( row ) y columnas ( col ) con
+información numérica, caracteres o lógica. En R existen varias formas para construir
+una matriz.
+
+A partir de la función  ¨**matrix()** , cuya sintaxis es
+```
+matrix(data = NA, nrow = 1, ncol = 1, byrow = FALSE, dimnames = NULL)
+```
+Donde 
+
+- **data** es el vector que contiene los elementos que formaran parte de la matriz
+
+- **nrow** es la cantidad de filas
+
+- **ncol** es la cantidad de columnas de la matriz que se está creando
+
+- **byrow** es un valor lógico. Si es  TRUE el vector que pasamos será ordenado por
+filas
+
+- **dimnames** nombres asignado a filas y columnas.
+
+
+Por ejemplo, para crear una matriz de 3 filas y 5 columnas (es decir, de dimensión
+3 × 5) con los primeros 15 números positivos podemos hacerlo con la siguiente
+
+
+```{r}
+M <- matrix(data=1:15, nrow=3, ncol=5, byrow=FALSE) # por columnas
+M
+```
+
+```{r}
+M <- matrix(data=1:15, nrow=3, ncol=5, byrow = TRUE) # por filas
+M
+```
+
+Veamos un ejemplo en que hagamos uso del argumento  dimnames para dar
+nombre a las filas y columnas:
+
+```{r}
+M <- matrix(1:15,
+nrow = 3,
+ncol = 5,
+byrow = TRUE,
+dimnames = list(
+c("Supermercado", "Tienda", "Verduleria"),
+c("Naranjas", "Bananas", "Melon", "Fresas", "Sandia")
+)
+)
+M
+```
+
+
+

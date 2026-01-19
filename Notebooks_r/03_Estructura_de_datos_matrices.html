@@ -9,11 +9,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Luis J Rubio" />
+<meta name="author" content="Luis J rubio" />
 
-<meta name="date" content="2026-01-07" />
+<meta name="date" content="2026-01-19" />
 
-<title>Estructura de datos en R - Vectores</title>
+<title>Estructura de datos en R - Matrices</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -350,280 +350,66 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Estructura de datos en R - Vectores</h1>
-<h4 class="author">Luis J Rubio</h4>
-<h4 class="date">2026-01-07</h4>
+<h1 class="title toc-ignore">Estructura de datos en R - Matrices</h1>
+<h4 class="author">Luis J rubio</h4>
+<h4 class="date">2026-01-19</h4>
 
 </div>
 
 
-<div id="vectores" class="section level2">
-<h2><strong>Vectores</strong></h2>
-<p>Un vector corresponde a un conjunto ordenado de elementos que reúnen
-la condición de pertenecer al mismo tipo de dato atómico. Los vectores
-son la estructura de datos más básica en R.</p>
-<p>Todos los vectores tienen tres propiedades:</p>
+<div id="matrices" class="section level2">
+<h2><strong>Matrices</strong></h2>
+<p>Podemos pensar en las matrices como vectores multidimensionales. Al
+igual que un vector, únicamente pueden contener datos de un sólo tipo.
+Las matrices son arreglos rectangulares de filas ( row ) y columnas (
+col ) con información numérica, caracteres o lógica. En R existen varias
+formas para construir una matriz.</p>
+<p>A partir de la función ¨<strong>matrix()</strong> , cuya sintaxis
+es</p>
+<pre><code>matrix(data = NA, nrow = 1, ncol = 1, byrow = FALSE, dimnames = NULL)</code></pre>
+<p>Donde</p>
 <ul>
-<li><p><strong><em>Tipo</em></strong>: que se puede determinar con la
-función <em>typeof()</em>. Un vector tiene el mismo tipo que los datos
-que contiene. Si tenemos un vector que contiene datos de tipo numérico,
-el vector será también de tipo numérico. Los vectores son atómicos, pues
-sólo pueden contener datos de un sólo tipo, no es posible mezclar datos
-de tipos diferentes dentro de ellos.</p></li>
-<li><p><strong><em>Longitud</em></strong>: que se puede determinar con
-la función <em>length()</em> . Es el número de elementos que contiene un
-vector. La longitud es la única dimensión que tiene esta estructura de
-datos.</p></li>
-<li><p><strong><em>Atributos</em></strong>. Un atributo es una parte de
-información que se puede adjuntar a un vector o cualquier objeto de R.
-El atributo no afectará a ningún valor del objeto.</p></li>
+<li><p><strong>data</strong> es el vector que contiene los elementos que
+formaran parte de la matriz</p></li>
+<li><p><strong>nrow</strong> es la cantidad de filas</p></li>
+<li><p><strong>ncol</strong> es la cantidad de columnas de la matriz que
+se está creando</p></li>
+<li><p><strong>byrow</strong> es un valor lógico. Si es TRUE el vector
+que pasamos será ordenado por filas</p></li>
+<li><p><strong>dimnames</strong> nombres asignado a filas y
+columnas.</p></li>
 </ul>
-<p>Podríamos denominar a los atributos como metadata que describen
-características de los datos que contienen. Los atributos más comunes de
-un vector atómico son los nombres, dimensiones y clases.</p>
-<p>Como los vectores son la estructura de datos más sencilla de R, datos
-simples como el número 3, son en realidad vectores. En este caso, un
-vector de tipo numérico y largo igual a 1.</p>
-<pre class="r"><code>x &lt;- 3
-x</code></pre>
-<pre><code>## [1] 3</code></pre>
-<p>notaremos la indicación [1], previa al valor asignado, indicando que
-el primer elemento del vector corresponde al primer elemento del renglón
-que se muestra. Esto es porque R, por defecto, crea vectores de longitud
-1 para nuestra variable.</p>
-<p>Podemos verificar que un objeto es un vector utilizando la función
-<em>is.vector()</em></p>
-<pre class="r"><code>is.vector(3)</code></pre>
-<pre><code>## [1] TRUE</code></pre>
-<div id="creación-de-vectores" class="section level3">
-<h3><strong>Creación de vectores</strong></h3>
-<div id="creación-de-vectores-usando-la-función-combinar-o-concatenar-c" class="section level4">
-<h4><strong>Creación de vectores usando la función combinar (o
-concatenar) c()</strong></h4>
-<p>La única restricción es que los objetos a concatenar deben ser del
-mismo tipo.</p>
-<pre class="r"><code>vect1 &lt;- c(-3, 2, 5.5)
-
-vect1</code></pre>
-<pre><code>## [1] -3.0  2.0  5.5</code></pre>
-<pre class="r"><code>#verificar si es un vector
-is.vector(vect1)</code></pre>
-<pre><code>## [1] TRUE</code></pre>
-<pre class="r"><code>#clase del vector
-class(vect1)</code></pre>
-<pre><code>## [1] &quot;numeric&quot;</code></pre>
-<pre class="r"><code>#tipo de vector
-typeof(vect1)</code></pre>
-<pre><code>## [1] &quot;double&quot;</code></pre>
-<pre class="r"><code>vect2 &lt;- c(&quot;Manzana&quot;, &quot;Naranja&quot;, &quot;Pera&quot;)
-
-vect2</code></pre>
-<pre><code>## [1] &quot;Manzana&quot; &quot;Naranja&quot; &quot;Pera&quot;</code></pre>
-<pre class="r"><code>#verificar si es un vector
-is.vector(vect2)</code></pre>
-<pre><code>## [1] TRUE</code></pre>
-<pre class="r"><code>#clase del vector
-class(vect2)</code></pre>
-<pre><code>## [1] &quot;character&quot;</code></pre>
-<pre class="r"><code>#tipo de vector
-typeof(vect2)</code></pre>
-<pre><code>## [1] &quot;character&quot;</code></pre>
-<p><em>¿qué pasa si intentamos concatenar objetos que no son del mismo
-tipo?</em></p>
-<p>R automáticamente transforma las componentes a un mismo tipo. En el
-caso del vector z , los elementos que queremos concatenar son de tipo
-numérico y carácter. Luego (otra vez recordar de lo más restrictivo a lo
-más flexible)</p>
-<pre class="r"><code> vect3 &lt;- c(FALSE, 5)
-
-vect3</code></pre>
-<pre><code>## [1] 0 5</code></pre>
-<pre class="r"><code>#verificar si es un vector
-is.vector(vect3)</code></pre>
-<pre><code>## [1] TRUE</code></pre>
-<pre class="r"><code>#clase del vector
-class(vect3)</code></pre>
-<pre><code>## [1] &quot;numeric&quot;</code></pre>
-<pre class="r"><code>#tipo de vector
-typeof(vect3)</code></pre>
-<pre><code>## [1] &quot;double&quot;</code></pre>
-</div>
-<div id="concatenar-dos-o-más-vectores" class="section level4">
-<h4><strong>Concatenar dos o más vectores</strong></h4>
-<pre class="r"><code>v1 &lt;- c(-2,4,6,9)
-v2 &lt;- c(5,-5,2,0)
-
-v3 &lt;- c(v1, v2)
-v3</code></pre>
-<pre><code>## [1] -2  4  6  9  5 -5  2  0</code></pre>
-<p>Al concatenar vectores el orden importa</p>
-<pre class="r"><code>v1 &lt;- c(-2,4,6,9)
-v2 &lt;- c(5,-5,2,0)
-
-v4 &lt;-c(v2, v1)
-v4</code></pre>
-<pre><code>## [1]  5 -5  2  0 -2  4  6  9</code></pre>
-<pre class="r"><code>v3 == v4</code></pre>
-<pre><code>## [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
-</div>
-<div id="creación-de-vectores-usando-la-función-vector" class="section level4">
-<h4><strong>Creación de vectores usando la función
-vector()</strong></h4>
-<p>a función <strong>vector()</strong> crea un vector del tipo y
-longitud que se especifican como argumentos en el momento de su
-declaración:</p>
-<pre class="r"><code>vec1 &lt;- vector(mode = &quot;numeric&quot;, length = 5)
-vec1</code></pre>
-<pre><code>## [1] 0 0 0 0 0</code></pre>
-<pre class="r"><code>vec2 &lt;- vector(mode = &quot;integer&quot;, length = 5)
-vec2</code></pre>
-<pre><code>## [1] 0 0 0 0 0</code></pre>
-<pre class="r"><code>vec3 &lt;- vector(mode = &quot;logical&quot;, length = 5)
-vec3</code></pre>
-<pre><code>## [1] FALSE FALSE FALSE FALSE FALSE</code></pre>
-<pre class="r"><code>vec4 &lt;- vector(mode = &quot;character&quot;, length = 5)
-vec4</code></pre>
-<pre><code>## [1] &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot;</code></pre>
-<p>Otra forma de crear vectores es hacer uso de las funciones wrapper
-(del inglés, envoltorio o contenedoras, es una función que llama a una o
-varias funciones, unas veces únicamente por convenio y otras para
-adaptarlas con el objetivo de hacer una tarea ligeramente diferente) que
-existen para cada tipo de datos. Las siguientes instrucciones son
-equivalentes a las anteriores:</p>
-<pre class="r"><code>vector_numeric &lt;- numeric(5)
-vector_numeric</code></pre>
-<pre><code>## [1] 0 0 0 0 0</code></pre>
-<pre class="r"><code>vector_integer &lt;- integer(5)
-vector_integer</code></pre>
-<pre><code>## [1] 0 0 0 0 0</code></pre>
-<pre class="r"><code>vector_logical &lt;- logical(5)
-vector_integer</code></pre>
-<pre><code>## [1] 0 0 0 0 0</code></pre>
-<pre class="r"><code>vector_character &lt;- character(5)
-vector_character</code></pre>
-<pre><code>## [1] &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot;</code></pre>
-</div>
-</div>
-<div id="nombrar-elementos-de-un-vector" class="section level3">
-<h3><strong>Nombrar elementos de un vector</strong></h3>
-<p>Para nombrar los elementos de un vector podemos usar dos métodos
-<strong>setNames()</strong> o <strong>names()</strong></p>
-<pre class="r"><code>cantidades &lt;- c(30, 63, 78, 82)
-articulos &lt;- c(&quot;tv&quot;,&quot;laptop&quot;,&quot;tablet&quot;,&quot;phone&quot;)
-frutas &lt;- c(&quot;manzanas&quot;,&quot;peras&quot;,&quot;naranjas&quot;,&quot;bananas&quot;)
-
-print(cantidades)</code></pre>
-<pre><code>## [1] 30 63 78 82</code></pre>
-<pre class="r"><code>print(articulos)</code></pre>
-<pre><code>## [1] &quot;tv&quot;     &quot;laptop&quot; &quot;tablet&quot; &quot;phone&quot;</code></pre>
-<pre class="r"><code>setNames(cantidades, articulos)</code></pre>
-<pre><code>##     tv laptop tablet  phone 
-##     30     63     78     82</code></pre>
-<pre class="r"><code>names(cantidades) &lt;- frutas
-print(cantidades)</code></pre>
-<pre><code>## manzanas    peras naranjas  bananas 
-##       30       63       78       82</code></pre>
-<p>La diferencia entre usar <strong>names()</strong> y
-<strong>setNames()</strong> está en que <strong>names()</strong>
-modifica el atributo names del vector original, mientras que
-<strong>setNames()</strong> genera un nuevo objeto, copia del original,
-con el atributo names. Este último comportamiento se llama
-“copiar-al-modificar”.</p>
-</div>
-<div id="acceder-a-los-elementos-de-un-vector" class="section level3">
-<h3><strong>Acceder a los elementos de un vector</strong></h3>
-<p>Acceder a los elementos de un vector implica poder seleccionar
-elementos únicos de un vector, como podría ser el primer o el último
-elemento, o cualquier subconjunto del vector; pero también reemplazar,
-cambiar o eliminar algunos elementos. Esto es conocido como indexing
-(del inglés, indexación) y se realiza mediante el uso de los corchetes
-[] . Existen cuatro maneras diferentes de elegir una parte de un
-vector:</p>
-<div id="mediante-un-vector-numérico-de-índices" class="section level4">
-<h4><strong>Mediante un vector numérico de índices</strong></h4>
-<p>Los índices deben ser enteros y todos positivos o todos negativos.
-Seleccionar los elementos con enteros positivos extrae los elementos de
-las posiciones indicadas:</p>
-<pre class="r"><code>v &lt;- c(&#39;uno&#39;, &#39;dos&#39;, &#39;tres&#39;, &#39;cuatro&#39;, &#39;cinco&#39;, &#39;seis&#39;)
-
-# Primer elemento
-v[1]</code></pre>
-<pre><code>## [1] &quot;uno&quot;</code></pre>
-<pre class="r"><code># último elemento
-n &lt;- length(v)
-v[n]</code></pre>
-<pre><code>## [1] &quot;seis&quot;</code></pre>
-<pre class="r"><code># Tercer y cuarto elemento
-v[c(3, 4)]</code></pre>
-<pre><code>## [1] &quot;tres&quot;   &quot;cuatro&quot;</code></pre>
-<pre class="r"><code># Primeros 3 elementos
-v[1:3]</code></pre>
-<pre><code>## [1] &quot;uno&quot;  &quot;dos&quot;  &quot;tres&quot;</code></pre>
-<pre class="r"><code># posiciones pares
-v[seq(2, n, 2)]</code></pre>
-<pre><code>## [1] &quot;dos&quot;    &quot;cuatro&quot; &quot;seis&quot;</code></pre>
-<pre class="r"><code># posiciones impares
-v[seq(1, n, 2)]</code></pre>
-<pre><code>## [1] &quot;uno&quot;   &quot;tres&quot;  &quot;cinco&quot;</code></pre>
-<pre class="r"><code>v[-seq(2, n, 2)] # Equivalente</code></pre>
-<pre><code>## [1] &quot;uno&quot;   &quot;tres&quot;  &quot;cinco&quot;</code></pre>
-<p>Los valores negativos eliminan los elementos en las posiciones
-especificadas:</p>
-<pre class="r"><code>v[c(-1,-3,-5)] # que es lo mismo que v[-c(1,3,5)]</code></pre>
-<pre><code>## [1] &quot;dos&quot;    &quot;cuatro&quot; &quot;seis&quot;</code></pre>
-<p>Pero no podemos mezclar valores positivos y negativos:</p>
-<p>v[c(-1,5)]</p>
-<p>Error in v[c(-1, 5)] : only 0’s may be mixed with negative
-subscripts</p>
-</div>
-<div id="por-medio-de-un-vector-lógico" class="section level4">
-<h4><strong>Por medio de un vector lógico</strong></h4>
-<p>En este caso se accederá a todos los valores correspondientes al
-valor TRUE . Este tipo es útil en conjunción con las funciones de
-comparación. Para ejemplificar, supongamos que tenemos los datos
-correspondientes a las edades de los empleados de una determinada
-empresa.</p>
-<pre class="r"><code>numeros &lt;- c(-10, 0, 2, 5, -11,7, -2, 12, -3)
-
-positivos &lt;- numeros &gt; 0
-negativos &lt;- numeros &lt; 0
-neutros &lt;- numeros == 0
-numeros[positivos]</code></pre>
-<pre><code>## [1]  2  5  7 12</code></pre>
-<pre class="r"><code>numeros[negativos]</code></pre>
-<pre><code>## [1] -10 -11  -2  -3</code></pre>
-<pre class="r"><code>numeros[neutros]</code></pre>
-<pre><code>## [1] 0</code></pre>
-</div>
-<div id="por-el-nombre-de-los-elementos" class="section level4">
-<h4><strong>Por el nombre de los elementos </strong></h4>
-<p>Si hemos dado nombre a los elementos del vector, podemos seleccionar
-sus elementos con un vector de tipo character</p>
-<pre class="r"><code>cantidades &lt;- c(&quot;tv&quot;=30, &quot;laptop&quot;=63, &quot;tablet&quot;=78, &quot;phone&quot;=82)
-cantidades[c(&quot;tv&quot;, &quot;tablet&quot;)]</code></pre>
-<pre><code>##     tv tablet 
-##     30     78</code></pre>
-</div>
-<div id="utilizando-los-corchetes" class="section level4">
-<h4><strong>Utilizando los corchetes</strong></h4>
-<p>Utilizando los corchetes sin especificar ninguna posición, [] ,
-obtendremos el vector completo:</p>
-<pre class="r"><code>numeros &lt;- c(-10, 0, 2, 5, -11,7, -2, 12, -3)
-numeros[]</code></pre>
-<pre><code>## [1] -10   0   2   5 -11   7  -2  12  -3</code></pre>
-</div>
-</div>
-<div id="eliminación-de-un-vector" class="section level3">
-<h3><strong>Eliminación de un vector</strong></h3>
-<p>Si queremos eliminar un vector en R, podemos utilizar la función
-<strong>rm()</strong> (remove).</p>
-<pre class="r"><code>v &lt;- c(1,2,3,4,5,6)
-v</code></pre>
-<pre><code>## [1] 1 2 3 4 5 6</code></pre>
-<pre class="r"><code>rm(v)</code></pre>
-<pre><code>v
-Error: objeto &#39;v&#39; no encontrado</code></pre>
-</div>
+<p>Por ejemplo, para crear una matriz de 3 filas y 5 columnas (es decir,
+de dimensión 3 × 5) con los primeros 15 números positivos podemos
+hacerlo con la siguiente</p>
+<pre class="r"><code>M &lt;- matrix(data=1:15, nrow=3, ncol=5, byrow=FALSE) # por columnas
+M</code></pre>
+<pre><code>##      [,1] [,2] [,3] [,4] [,5]
+## [1,]    1    4    7   10   13
+## [2,]    2    5    8   11   14
+## [3,]    3    6    9   12   15</code></pre>
+<pre class="r"><code>M &lt;- matrix(data=1:15, nrow=3, ncol=5, byrow = TRUE) # por filas
+M</code></pre>
+<pre><code>##      [,1] [,2] [,3] [,4] [,5]
+## [1,]    1    2    3    4    5
+## [2,]    6    7    8    9   10
+## [3,]   11   12   13   14   15</code></pre>
+<p>Veamos un ejemplo en que hagamos uso del argumento dimnames para dar
+nombre a las filas y columnas:</p>
+<pre class="r"><code>M &lt;- matrix(1:15,
+nrow = 3,
+ncol = 5,
+byrow = TRUE,
+dimnames = list(
+c(&quot;Supermercado&quot;, &quot;Tienda&quot;, &quot;Verduleria&quot;),
+c(&quot;Naranjas&quot;, &quot;Bananas&quot;, &quot;Melon&quot;, &quot;Fresas&quot;, &quot;Sandia&quot;)
+)
+)
+M</code></pre>
+<pre><code>##              Naranjas Bananas Melon Fresas Sandia
+## Supermercado        1       2     3      4      5
+## Tienda              6       7     8      9     10
+## Verduleria         11      12    13     14     15</code></pre>
 </div>
 
 
