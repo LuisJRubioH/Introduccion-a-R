@@ -410,6 +410,121 @@ M</code></pre>
 ## Supermercado        1       2     3      4      5
 ## Tienda              6       7     8      9     10
 ## Verduleria         11      12    13     14     15</code></pre>
+<div id="dimensión-número-de-filas-y-columnas-de-una-matriz" class="section level4">
+<h4><strong>Dimensión: número de filas y columnas de una
+matriz</strong></h4>
+<p>Aplicada a una matriz, la función <strong>dim()</strong> nos devuelve
+las dimensiones de la misma. Esto es, un vector de enteros de longitud
+2, cuya primera componente indica el número de filas y la segunda el
+número de columnas.</p>
+<p>La función <strong>sample()</strong> : es quizás la función más
+simple para generar una serie de datos aleatorios.Su sintaxis es</p>
+<pre><code>sample(x, size, replace = FALSE)</code></pre>
+<p>es decir, debemos indicarle como argumento el vector origen (
+<strong>x</strong> ) del que se extraen los datos (números, letras,
+etc.), después la longitud ( <strong>size</strong> ) de la sucesión a
+generar y si se puede o no repetir elemento ( <strong>replace</strong>
+), es decir, si la extracción se realiza con o sin reposición.</p>
+<p>Construimos una secuencia de números aleatorios</p>
+<pre class="r"><code>aleatorios &lt;- sample(x = 0:16, size = 16, replace = TRUE)
+print(aleatorios)</code></pre>
+<pre><code>##  [1]  5  9  6  5  1  6 13 16 15  5  4  1 16  8 12  7</code></pre>
+<p>Contruimos la matriz usando la secuencia anterior</p>
+<pre class="r"><code>M &lt;- matrix(data=aleatorios, nrow=4, ncol = 4, byrow = TRUE)
+print(M)</code></pre>
+<pre><code>##      [,1] [,2] [,3] [,4]
+## [1,]    5    9    6    5
+## [2,]    1    6   13   16
+## [3,]   15    5    4    1
+## [4,]   16    8   12    7</code></pre>
+<pre class="r"><code>print(dim(M))</code></pre>
+<pre><code>## [1] 4 4</code></pre>
+<p>Además con las funciones <strong>nrow()</strong> y
+<strong>ncol()</strong> podemos conocer el número de filas y columnas,
+respectivamente:</p>
+<pre class="r"><code>print(nrow(M))</code></pre>
+<pre><code>## [1] 4</code></pre>
+<pre class="r"><code>print(ncol(M))</code></pre>
+<pre><code>## [1] 4</code></pre>
+<p>La función <strong>length()</strong> que utilizamos en la sección
+anterior para obtener la longitud de un vector, también podemos
+aplicarla a matrices, en cuyo caso nos devuelve la cantidad de elementos
+en la matriz (que será igual, como ya comentamos, al producto del número
+de filas por el número de columnas)</p>
+<pre class="r"><code>print(length(M))</code></pre>
+<pre><code>## [1] 16</code></pre>
+<p><strong>Nombre de filas y columnas</strong></p>
+<p>Vimos que al crear una matriz podemos indicar, usando el argumento
+<strong>dimnames</strong> , dar nombres a las filas y columnas. Pues
+bien, esto también podemos hacerlo si ya tenemos creada la matriz. Para
+ello debemos utilizar las funciones <strong>colnames()</strong> y
+<strong>rownames()</strong>.</p>
+<pre class="r"><code>M = matrix(1:15, nrow = 3, ncol = 5, byrow = TRUE)
+print(M)</code></pre>
+<pre><code>##      [,1] [,2] [,3] [,4] [,5]
+## [1,]    1    2    3    4    5
+## [2,]    6    7    8    9   10
+## [3,]   11   12   13   14   15</code></pre>
+<pre class="r"><code>rownames(M) &lt;- c(&#39;Supermercado&#39;, &#39;Tienda&#39;,&#39;Verduleria&#39;)
+colnames(M) &lt;- c(&#39;Naranjas&#39;,&#39;Bananas&#39;, &#39;Melon&#39;,&#39;Fresas&#39;, &#39;Sandia&#39;)
+print(M)</code></pre>
+<pre><code>##              Naranjas Bananas Melon Fresas Sandia
+## Supermercado        1       2     3      4      5
+## Tienda              6       7     8      9     10
+## Verduleria         11      12    13     14     15</code></pre>
+<p>Podemos utilizar la función <strong>dimnames()</strong> para obtener
+una lista que contiene dos vectores con los atributos rownames y
+colnames</p>
+<pre class="r"><code>dimnames(M)</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;Supermercado&quot; &quot;Tienda&quot;       &quot;Verduleria&quot;  
+## 
+## [[2]]
+## [1] &quot;Naranjas&quot; &quot;Bananas&quot;  &quot;Melon&quot;    &quot;Fresas&quot;   &quot;Sandia&quot;</code></pre>
+<p>En ocasiones puede que necesitemos eliminar los nombres de la matriz
+(o sólo los de las filas o sólo los de las columnas). Para ello bastará
+con asignar el valor NULL a los nombres de las filas o columnas o ambos,
+o usando la función unname() para borrar todos los nombres.</p>
+<pre class="r"><code># creamos copias idénticas de M
+# Borrar nombres de las columnas+
+M1 = M2 = M 
+print(M1)</code></pre>
+<pre><code>##              Naranjas Bananas Melon Fresas Sandia
+## Supermercado        1       2     3      4      5
+## Tienda              6       7     8      9     10
+## Verduleria         11      12    13     14     15</code></pre>
+<pre class="r"><code>print(M2)</code></pre>
+<pre><code>##              Naranjas Bananas Melon Fresas Sandia
+## Supermercado        1       2     3      4      5
+## Tienda              6       7     8      9     10
+## Verduleria         11      12    13     14     15</code></pre>
+<p>Eliminamos los nombres de las columnas de M1</p>
+<pre class="r"><code>colnames(M1) &lt;- NULL
+print(M1)</code></pre>
+<pre><code>##              [,1] [,2] [,3] [,4] [,5]
+## Supermercado    1    2    3    4    5
+## Tienda          6    7    8    9   10
+## Verduleria     11   12   13   14   15</code></pre>
+<p>Eliminamos los nombres de las filas de M2</p>
+<pre class="r"><code>rownames(M2) &lt;- NULL
+print(M2)</code></pre>
+<pre><code>##      Naranjas Bananas Melon Fresas Sandia
+## [1,]        1       2     3      4      5
+## [2,]        6       7     8      9     10
+## [3,]       11      12    13     14     15</code></pre>
+<p>Para eliminar nombres de filas y columnas a la vez podemos usar la
+función <em>unname()</em></p>
+<pre class="r"><code>print(M)</code></pre>
+<pre><code>##              Naranjas Bananas Melon Fresas Sandia
+## Supermercado        1       2     3      4      5
+## Tienda              6       7     8      9     10
+## Verduleria         11      12    13     14     15</code></pre>
+<pre class="r"><code>unname(M)</code></pre>
+<pre><code>##      [,1] [,2] [,3] [,4] [,5]
+## [1,]    1    2    3    4    5
+## [2,]    6    7    8    9   10
+## [3,]   11   12   13   14   15</code></pre>
+</div>
 </div>
 
 

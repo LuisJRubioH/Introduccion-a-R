@@ -59,6 +59,102 @@ c("Naranjas", "Bananas", "Melon", "Fresas", "Sandia")
 )
 M
 ```
+#### **Dimensión: número de filas y columnas de una matriz**
+
+Aplicada a una matriz, la función  **dim()** nos devuelve las dimensiones de la misma.
+Esto es, un vector de enteros de longitud 2, cuya primera componente indica el
+número de filas y la segunda el número de columnas.
+
+La función  **sample()** : es quizás la función más simple para generar una serie de
+datos aleatorios.Su sintaxis es  
+
+```
+sample(x, size, replace = FALSE)
+```
+es decir, debemos indicarle como argumento el vector origen ( **x** ) del que se extraen los datos (números, letras, etc.), después la longitud ( **size** ) de la sucesión a generar y si se puede o no repetir elemento ( **replace** ), es decir, si la extracción se realiza con o sin reposición.
+
+Construimos una secuencia de números aleatorios
+
+```{r}
+aleatorios <- sample(x = 0:16, size = 16, replace = TRUE)
+print(aleatorios)
+```
+Contruimos la matriz usando la secuencia anterior
+
+```{r}
+M <- matrix(data=aleatorios, nrow=4, ncol = 4, byrow = TRUE)
+print(M)
+print(dim(M))
+```
+Además con las funciones  **nrow()** y  **ncol()** podemos conocer el número de filas y
+columnas, respectivamente:
+
+```{r}
+print(nrow(M))
+print(ncol(M))
+```
+La función  **length()** que utilizamos en la sección anterior para obtener la longitud de
+un vector, también podemos aplicarla a matrices, en cuyo caso nos devuelve la
+cantidad de elementos en la matriz (que será igual, como ya comentamos, al
+producto del número de filas por el número de columnas)
+
+```{r}
+print(length(M))
+```
+
+**Nombre de filas y columnas** 
+
+Vimos que al crear una matriz podemos indicar, usando el argumento  **dimnames** , dar
+nombres a las filas y columnas. Pues bien, esto también podemos hacerlo si ya
+tenemos creada la matriz. Para ello debemos utilizar las funciones  **colnames()** y
+**rownames()**.
+
+```{r}
+M = matrix(1:15, nrow = 3, ncol = 5, byrow = TRUE)
+print(M)
+```
+```{r}
+rownames(M) <- c('Supermercado', 'Tienda','Verduleria')
+colnames(M) <- c('Naranjas','Bananas', 'Melon','Fresas', 'Sandia')
+print(M)
+```
+Podemos utilizar la función  **dimnames()** para obtener una lista que contiene dos
+vectores con los atributos  rownames y  colnames
+
+```{r}
+dimnames(M)
+```
+En ocasiones puede que necesitemos eliminar los nombres de la matriz (o sólo los de
+las filas o sólo los de las columnas). Para ello bastará con asignar el valor NULL a los
+nombres de las filas o columnas o ambos, o usando la función  unname()  para borrar
+todos los nombres.
+
+```{r}
+# creamos copias idénticas de M
+# Borrar nombres de las columnas+
+M1 = M2 = M 
+print(M1)
+print(M2)
+```
+
+Eliminamos los nombres de las columnas de M1
+
+```{r}
+colnames(M1) <- NULL
+print(M1)
+```
+Eliminamos los nombres de las filas de M2
+
+```{r}
+rownames(M2) <- NULL
+print(M2)
+```
+Para eliminar nombres de filas y columnas a la vez podemos usar la función *unname()*
+
+```{r}
+print(M)
+unname(M)
+```
 
 
 
