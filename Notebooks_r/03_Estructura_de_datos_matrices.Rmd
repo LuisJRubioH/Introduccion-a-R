@@ -155,6 +155,116 @@ Para eliminar nombres de filas y columnas a la vez podemos usar la función *unn
 print(M)
 unname(M)
 ```
+#### **Seleccionar elementos de una matriz**
+
+La forma más común de crear subconjuntos de matrices es una generalización simple
+de los subconjuntos en una dimensión (vectores): simplemente usando los corchetes
+**[,]**, pero proporcionando un índice para cada dimensión (el número de fila(s) y el
+número de columna(s) que nos interesan), separados por una coma: **[1era_dim,
+2da_dim]** . Aplicar el operador  **[,]**  en blanco (sin indicar alguno de los índices) ahora
+es útil porque nos permite seleccionar todas las filas o todas las columnas.
+Siguiendo con el ejemplo anterior, si quisiéramos seleccionar la entrada que
+corresponde a  "Naranjas" en  "Tienda”,  tenemos dos opciones:
+
+- Escribiendo el nombre de la matriz y entre corchetes los nombres de la fila y
+columnas entre comillas y separados por una coma:
+
+```{r}
+M["Tienda","Naranjas"]
+```
+- Alternativamente, podemos utilizar los índices correspondientes a la fila y la
+columna deseada
+
+```{r}
+M[2,1]
+```
+También podemos seleccionar toda una fila o toda una columna:
+
+```{r}
+# seleccionamos la primera fila
+M[1,]
+```
+```{r}
+# o la tercer columna
+M[,3]
+```
+```{r}
+# o los elementos en la primer fila y las columnas 2 y 4
+M[1,c(2,4)]
+```
+
+####  **Añadir y quitar filas y/o columnas de una matriz**
+
+Como vimos antes, las funciones  **cbind()** y  **rbind()** pueden usarse para crear una
+matriz. Sin embargo, el uso principal de estas funciones es agregar columnas y filas,
+respectivamente, a las estructuras de datos.
+
+
+```{r}
+# agregar filas o columnas
+A <- matrix(1:9,nrow=3,ncol=3)
+A
+
+# agregamos una columna a A (que debe ser un vector de longitud 3)
+A <- cbind(A,c(-1,2,0))
+A
+
+# agregamos una fila a A (que debe ser un vector de longitud 4)
+A <- rbind(A,-2:-5)
+A
+
+# importa el orden
+A <- matrix(1:9,nrow=3,ncol=3)
+A
+
+# agregamos una columna al final
+A2 <- cbind(A,c(-1,2,0))
+A2
+
+# agregamos una columna al principio
+A3 <- cbind(c(-1,2,0),A)
+A3
+
+# o también puedo eliminar las filas 1 y 3 de A3
+A4 <- A3[-c(1,3),]
+A4
+```
+
+
+### **Operaciones con Matrices**
+
+```{r}
+set.seed(1) # semilla de inicio.
+A = matrix(data = sample(0:8), nrow = 3, ncol = 3)
+B = matrix(data = sample(0:8), ncol = 3, nrow = 3)
+A
+B
+```
+
+#### **Suma de matrices**
+
+```{r}
+print(A + B)
+```
+#### **Resta de matrices**
+
+```{r}
+print(A-B)
+```
+#### **Multiplicación de una matriz por un escalar**
+```{r}
+3*A
+```
+
+
+
+#### **Multiplicación usual de matrices**
+
+```{r}
+print(A %*% B)
+```
+
+
 
 
 

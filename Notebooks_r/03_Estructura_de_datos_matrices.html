@@ -428,15 +428,15 @@ generar y si se puede o no repetir elemento ( <strong>replace</strong>
 <p>Construimos una secuencia de números aleatorios</p>
 <pre class="r"><code>aleatorios &lt;- sample(x = 0:16, size = 16, replace = TRUE)
 print(aleatorios)</code></pre>
-<pre><code>##  [1]  5  9  6  5  1  6 13 16 15  5  4  1 16  8 12  7</code></pre>
+<pre><code>##  [1]  3 13 15 14  4  0  4 16 14  8  9  5 15  4 16 14</code></pre>
 <p>Contruimos la matriz usando la secuencia anterior</p>
 <pre class="r"><code>M &lt;- matrix(data=aleatorios, nrow=4, ncol = 4, byrow = TRUE)
 print(M)</code></pre>
 <pre><code>##      [,1] [,2] [,3] [,4]
-## [1,]    5    9    6    5
-## [2,]    1    6   13   16
-## [3,]   15    5    4    1
-## [4,]   16    8   12    7</code></pre>
+## [1,]    3   13   15   14
+## [2,]    4    0    4   16
+## [3,]   14    8    9    5
+## [4,]   15    4   16   14</code></pre>
 <pre class="r"><code>print(dim(M))</code></pre>
 <pre><code>## [1] 4 4</code></pre>
 <p>Además con las funciones <strong>nrow()</strong> y
@@ -524,6 +524,148 @@ función <em>unname()</em></p>
 ## [1,]    1    2    3    4    5
 ## [2,]    6    7    8    9   10
 ## [3,]   11   12   13   14   15</code></pre>
+</div>
+<div id="seleccionar-elementos-de-una-matriz" class="section level4">
+<h4><strong>Seleccionar elementos de una matriz</strong></h4>
+<p>La forma más común de crear subconjuntos de matrices es una
+generalización simple de los subconjuntos en una dimensión (vectores):
+simplemente usando los corchetes <strong>[,]</strong>, pero
+proporcionando un índice para cada dimensión (el número de fila(s) y el
+número de columna(s) que nos interesan), separados por una coma:
+<strong>[1era_dim, 2da_dim]</strong> . Aplicar el operador
+<strong>[,]</strong> en blanco (sin indicar alguno de los índices) ahora
+es útil porque nos permite seleccionar todas las filas o todas las
+columnas. Siguiendo con el ejemplo anterior, si quisiéramos seleccionar
+la entrada que corresponde a “Naranjas” en “Tienda”, tenemos dos
+opciones:</p>
+<ul>
+<li>Escribiendo el nombre de la matriz y entre corchetes los nombres de
+la fila y columnas entre comillas y separados por una coma:</li>
+</ul>
+<pre class="r"><code>M[&quot;Tienda&quot;,&quot;Naranjas&quot;]</code></pre>
+<pre><code>## [1] 6</code></pre>
+<ul>
+<li>Alternativamente, podemos utilizar los índices correspondientes a la
+fila y la columna deseada</li>
+</ul>
+<pre class="r"><code>M[2,1]</code></pre>
+<pre><code>## [1] 6</code></pre>
+<p>También podemos seleccionar toda una fila o toda una columna:</p>
+<pre class="r"><code># seleccionamos la primera fila
+M[1,]</code></pre>
+<pre><code>## Naranjas  Bananas    Melon   Fresas   Sandia 
+##        1        2        3        4        5</code></pre>
+<pre class="r"><code># o la tercer columna
+M[,3]</code></pre>
+<pre><code>## Supermercado       Tienda   Verduleria 
+##            3            8           13</code></pre>
+<pre class="r"><code># o los elementos en la primer fila y las columnas 2 y 4
+M[1,c(2,4)]</code></pre>
+<pre><code>## Bananas  Fresas 
+##       2       4</code></pre>
+</div>
+<div id="añadir-y-quitar-filas-yo-columnas-de-una-matriz" class="section level4">
+<h4><strong>Añadir y quitar filas y/o columnas de una
+matriz</strong></h4>
+<p>Como vimos antes, las funciones <strong>cbind()</strong> y
+<strong>rbind()</strong> pueden usarse para crear una matriz. Sin
+embargo, el uso principal de estas funciones es agregar columnas y
+filas, respectivamente, a las estructuras de datos.</p>
+<pre class="r"><code># agregar filas o columnas
+A &lt;- matrix(1:9,nrow=3,ncol=3)
+A</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    4    7
+## [2,]    2    5    8
+## [3,]    3    6    9</code></pre>
+<pre class="r"><code># agregamos una columna a A (que debe ser un vector de longitud 3)
+A &lt;- cbind(A,c(-1,2,0))
+A</code></pre>
+<pre><code>##      [,1] [,2] [,3] [,4]
+## [1,]    1    4    7   -1
+## [2,]    2    5    8    2
+## [3,]    3    6    9    0</code></pre>
+<pre class="r"><code># agregamos una fila a A (que debe ser un vector de longitud 4)
+A &lt;- rbind(A,-2:-5)
+A</code></pre>
+<pre><code>##      [,1] [,2] [,3] [,4]
+## [1,]    1    4    7   -1
+## [2,]    2    5    8    2
+## [3,]    3    6    9    0
+## [4,]   -2   -3   -4   -5</code></pre>
+<pre class="r"><code># importa el orden
+A &lt;- matrix(1:9,nrow=3,ncol=3)
+A</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    4    7
+## [2,]    2    5    8
+## [3,]    3    6    9</code></pre>
+<pre class="r"><code># agregamos una columna al final
+A2 &lt;- cbind(A,c(-1,2,0))
+A2</code></pre>
+<pre><code>##      [,1] [,2] [,3] [,4]
+## [1,]    1    4    7   -1
+## [2,]    2    5    8    2
+## [3,]    3    6    9    0</code></pre>
+<pre class="r"><code># agregamos una columna al principio
+A3 &lt;- cbind(c(-1,2,0),A)
+A3</code></pre>
+<pre><code>##      [,1] [,2] [,3] [,4]
+## [1,]   -1    1    4    7
+## [2,]    2    2    5    8
+## [3,]    0    3    6    9</code></pre>
+<pre class="r"><code># o también puedo eliminar las filas 1 y 3 de A3
+A4 &lt;- A3[-c(1,3),]
+A4</code></pre>
+<pre><code>## [1] 2 2 5 8</code></pre>
+</div>
+<div id="operaciones-con-matrices" class="section level3">
+<h3><strong>Operaciones con Matrices</strong></h3>
+<pre class="r"><code>set.seed(1) # semilla de inicio.
+A = matrix(data = sample(0:8), nrow = 3, ncol = 3)
+B = matrix(data = sample(0:8), ncol = 3, nrow = 3)
+A</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    8    0    2
+## [2,]    3    1    7
+## [3,]    6    5    4</code></pre>
+<pre class="r"><code>B</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    0    8
+## [2,]    2    4    6
+## [3,]    7    5    3</code></pre>
+<div id="suma-de-matrices" class="section level4">
+<h4><strong>Suma de matrices</strong></h4>
+<pre class="r"><code>print(A + B)</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    9    0   10
+## [2,]    5    5   13
+## [3,]   13   10    7</code></pre>
+</div>
+<div id="resta-de-matrices" class="section level4">
+<h4><strong>Resta de matrices</strong></h4>
+<pre class="r"><code>print(A-B)</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    7    0   -6
+## [2,]    1   -3    1
+## [3,]   -1    0    1</code></pre>
+</div>
+<div id="multiplicación-de-una-matriz-por-un-escalar" class="section level4">
+<h4><strong>Multiplicación de una matriz por un escalar</strong></h4>
+<pre class="r"><code>3*A</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]   24    0    6
+## [2,]    9    3   21
+## [3,]   18   15   12</code></pre>
+</div>
+<div id="multiplicación-usual-de-matrices" class="section level4">
+<h4><strong>Multiplicación usual de matrices</strong></h4>
+<pre class="r"><code>print(A %*% B)</code></pre>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]   22   10   70
+## [2,]   54   39   51
+## [3,]   44   40   90</code></pre>
+</div>
 </div>
 </div>
 
