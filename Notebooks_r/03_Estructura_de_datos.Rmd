@@ -2,7 +2,9 @@
 title: "Estructura de datos en R - Vectores"
 author: "Luis J Rubio"
 date: "2026-01-07"
-output: html_document
+output:
+  html_document:
+    code_folding: hide
 ---
 
 ## **Vectores** 
@@ -56,21 +58,16 @@ La única restricción es que los objetos a concatenar deben ser del mismo tipo.
 ```{r}
 vect1 <- c(-3, 2, 5.5)
 
-vect1
-
-#verificar si es un vector
-is.vector(vect1)
-          
-#clase del vector
-class(vect1)
-
-#tipo de vector
-typeof(vect1)
+cat(
+  vect1, "\n",
+  is.vector(vect1), "\n",
+  class(vect1), "\n",
+  typeof(vect1)
+)
 ```
 
 ```{r}
 vect2 <- c("Manzana", "Naranja", "Pera")
-
 vect2
 
 #verificar si es un vector
