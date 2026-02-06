@@ -87,7 +87,7 @@ Para conocer la lista de valores que toma la variable y comprobar si finalmente 
 variable toma un número finito de valores usaremos la función unique(), que
 devuelve un vector con los valores que presenta la variable sin duplicados.
 
-* La variable Posición representa un sistema de coordenadas, es decir, una tupla donde la primera componenete representa la latutud y la segunda representa la longitud,de modo que sus componentes deben ser numéricas. Lo recomendable es eliminar la variable posición debido a que se cuenta  por separado con las variables Latitud y Longitud, con el fin de reducir redundania.
+* La variable Posición representa un sistema de coordenadas, es decir, una tupla donde la primera componenete representa la latitud y la segunda representa la longitud, de modo que sus componentes deben ser numéricas. Lo recomendable es eliminar la variable posición debido a que se cuenta  por separado con las variables Latitud y Longitud, con el fin de reducir redundania.
 
 El procedimiento a seguir es re-ajustar los tipos de estas variables para poder realizar
 posteriormente las operaciones, análisis y representaciones gráficas que sean necesarias.
@@ -178,13 +178,56 @@ Analizando el conjunto de datos con el cual estamos trabajando en esta guía, po
 observar que la tabla “calidad_aire” presenta un total de **116.281** valores perdidos, el **21%** del total. 
 
 Si analizamos los **NA's**, en cada una de las variables, dos de ellas: **CO** y
-**PM25**, presenta un porcentaje superior al **50%**, del **77%** y **88%* respectivamente, lo
+**PM25**, presenta un porcentaje superior al **50%**, del **77%** y **88%** respectivamente, lo
 que conlleva una ausencia significativa de información en el dataset de trabajo. Esta
 anomalía debe ser tratada de alguna forma para disminuir su impacto en el objetivo de
 reutilización de los datos.
 
-- el primer tratamiento que vamos
-a realizar sobre los datos perdidos, es la eliminación de las dos variables que presentan un
-porcentaje superior al 50 %, ya que un número de NAs tan alto puede producir errores o
-distorsionar los análisis posteriores al no ser usadas las filas que presentan NAs (en este caso,
-no se usaría más del 50% de las observaciones).
+- el primer tratamiento que vamos a realizar sobre los datos perdidos, es la eliminación de las dos variables que presentan un porcentaje superior al **50%**, ya que un número de **NA's** tan alto puede producir errores o distorsionar los análisis posteriores al no ser usadas las filas que presentan NAs (en este caso, no se usaría más del **50%** de las observaciones).
+
+
+```{r}
+# Eliminación de las variables que presentan un % de NAs superior al
+#50%, para ello se utiliza la función which() que permite realizar
+#selecciones de datos bajo alguna premisa.
+
+calidad_aire <- 
+  calidad_aire[,-which(colMeans(is.na(calidad_aire)) >= 0.50)]
+```
+
+Continuando con el ejemplo, los valores perdidos que presenta la tabla en el resto de
+variables, los sustituiremos por la media de cada una de las columnas, para no perder
+información significativa y los análisis posteriores no se vean alterados.
+
+```{r}
+# Identificar columnas numéricas
+columnas_numericas <- which(sapply(calidad_aire, is.numeric))
+
+# Calcular medias (crear cols_mean aquí)
+cols_mean <- colMeans(calidad_aire[, columnas_numericas], na.rm = TRUE)
+
+# Imputar NAs con las medias
+for (x in columnas_numericas) {
+  calidad_aire[is.na(calidad_aire[, x]), x] <- round(cols_mean[x - min(columnas_numericas) + 1], 2)
+}
+```
+
+# Paso 6: Deteccion y tratamiento de valores atipicos.
+
+```{r}
+# Obtener NOMBRES de columnas numéricas (no índices)
+columnas_numericas <- names(calidad_aire)[sapply(calidad_aire, is.numeric)]
+
+# Crear histogramas
+for (col in columnas_numericas) {
+  p <- ggplot(calidad_aire, aes(x = .data[[col]])) +
+    geom_histogram(bins = 100, fill = "lightblue", color = "black") +
+    labs(title = paste("Histograma de", col),
+         x = col,
+         y = "Frecuencia") +
+    theme_minimal()
+  print(p)
+}
+```
+
+
