@@ -1,0 +1,144 @@
+---
+title: "Calidad del aire - EDA"
+author: "Luis J Rubio"
+date: "`r Sys.Date()`"
+output: 
+    html_document:
+      code_folding: show
+---
+
+### Pasos que se seguiran en este codigo
+
+1. Carga de librerias. 
+2. Carga de datos. 
+3. Analisis descriptivo.
+4. Ajuste de tipos de variables.
+5. Deteccion y tratamiento de datos ausentes.
+6. Deteccion y tratamiento de valores atipicos. 
+7. Analisis de correlacion entre variables.  
+
+
+### Paso 1: Cargar las librerias
+
+```{r, results = "show", message = FALSE, warning = FALSE}
+#Carga de librerias
+library(readr)
+library(ggplot2)
+library(Hmisc)
+library(corrplot)
+library(dplyr)
+```
+
+### Paso 2: Cargar datos
+```{r, results = "hide", message = FALSE, warning = FALSE}
+
+calidad_aire<- 
+  read_delim("data/calidad-del-aire-datos-historicos-diarios.csv",
+             delim=";", col_names = TRUE, locale = locale(encoding = "UTF-8"))
+```
+
+Veamos algunas filas del dataset
+
+```{r}
+head(calidad_aire)
+```
+
+### Paso 3: Analisis exploratorio
+
+La función **str()** permite conocer de forma compacta la estructura interna de la tabla de datos indicando el tipo de variables, los rangos de valores y una muestra de dichos valores donde de un vistazo se puede apreciar la presencia de valores ausentes identificados mediante las siglas **NA** (del inglés, not allowed o no disponible)
+
+```{r}
+str(calidad_aire)
+```
+
+La función **summary()** muestra un resumen general
+de las variables de la tabla, mostrando los valores: mínimo, máximo, media, mediana, primer
+y tercer cuartil para las variables numéricas, indicando además el número específico de
+valores NA presentes en cada una.
+
+```{r}
+summary(calidad_aire)
+```
+
+Según los resully¿tados obtenidos, las principales caracteríaticas que presenta la tabla de datos son:
+
+* El número total de observaciones del conjunto de datos es *446,014*
+* El número total de variables es 13, 3 de tipo cadena de caracteres y 9 numéricas y 1 de tipo fecha.
+* El rango temporal abarca desde el 01/01/1997 hasta el 31/12/2020.
+* Presenta tres variables del Sistema de Coordenadas Geográficas: Longitud y Latitud y Posición, para
+georreferenciar cada una de las estaciones de calidad de aire de Castilla y León.
+
+### paso 4: Ajuste de tipos de variables.
+
+Debemos verificar que cada variable se ha almacenado con el tipo de valor que
+corresponde. Por ejemplo, que las variables que contienen valores numéricos representan
+números y las cualitativas o categóricas están tipificadas como cadenas de caracteres y
+contienen una cantidad finita de elementos.
+
+En nuestro conjunto de datos, a priori, encontramos varias variables donde el tipo de dato
+no se corresponde con la naturaleza del valor que contiene, como es el caso de las variables
+*Provincia*, *Estación* y *Posición*. Estas tres variables han sido codificadas como tipo carácter, sin embargo:
+
+
+* Las variables Provincia y Estación, son variables de tipo categórico. Para transformar
+una cadena de caracteres a una variable tipo categórico, usaremos la función
+*as.factor()*, conociendo previamente la lista de valores que puede tomar la variable.
+Para conocer la lista de valores que toma la variable y comprobar si finalmente esa
+variable toma un número finito de valores usaremos la función unique(), que
+devuelve un vector con los valores que presenta la variable sin duplicados.
+
+* La variable Posición representa un sistema de coordenadas, es decir, una tupla donde la primera componenete representa la latutud y la segunda representa la longitud,de modo que sus componentes deben ser numéricas. Lo recomendable es eliminar la variable posición debido a que se cuenta  por separado con las variables Latitud y Longitud, con el fin de reducir redundania.
+
+El procedimiento a seguir es re-ajustar los tipos de estas variables para poder realizar
+posteriormente las operaciones, análisis y representaciones gráficas que sean necesarias.
+
+```{r}
+names(calidad_aire)
+```
+
+
+```{r}
+#Re-ajustar la variable Provincia
+unique(calidad_aire$Provincia)
+calidad_aire$Provincia <- as.factor(calidad_aire$Provincia)
+levels(calidad_aire$Provincia)
+```
+
+Formateamos el nombre de la variable paar que no tenga tílde
+```{r}
+names(calidad_aire)[10] <- "Estacion"
+typeof(calidad_aire$Estacion)
+```
+```{r}
+calidad_aire$Estacion <- as.factor(calidad_aire$Estacion)
+levels(calidad_aire$Estacion)
+```
+
+Vamos a eliminar la variable Posición
+```{r}
+calidad_aire$"Posición" <- NULL
+```
+
+Antes de realizar cualquier analisis cambiamos el nombre a la variable numéricas
+
+```{r}
+library(dplyr)
+
+calidad_aire <- calidad_aire %>%
+  rename(O3 = `O3 (ug/m3)`,
+         PM10 = `PM10 (ug/m3)`,
+         PM25 = `PM25 (ug/m3)`,
+         CO = `CO (mg/m3)`,
+         NO = `NO (ug/m3)`,
+         NO2 = `NO2 (ug/m3)`,
+         SO2 = `SO2 (ug/m3)`)
+```
+
+
+
+Verificamos la cantidad de columnas y el tipo, nuevamente usando la función str()
+
+```{r}
+str(calidad_aire)
+```
+

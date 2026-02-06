@@ -1,0 +1,288 @@
+---
+title: "Estructura de datos en R - Vectores"
+author: "Luis J Rubio"
+date: "2026-01-07"
+output:
+  html_document:
+    code_folding: hide
+---
+
+## **Vectores** 
+
+Un vector corresponde a un conjunto ordenado de elementos que reúnen la
+condición de pertenecer al mismo tipo de dato atómico. Los vectores son la
+estructura de datos más básica en R.
+
+Todos los vectores tienen tres propiedades:
+
+- ***Tipo***: que se puede determinar con la función *typeof()*. Un vector tiene el mismo
+tipo que los datos que contiene. Si tenemos un vector que contiene datos de tipo
+numérico, el vector será también de tipo numérico. Los vectores son atómicos,
+pues sólo pueden contener datos de un sólo tipo, no es posible mezclar datos de
+tipos diferentes dentro de ellos.
+
+- ***Longitud***: que se puede determinar con la función  *length()* . Es el número de
+elementos que contiene un vector. La longitud es la única dimensión que tiene
+esta estructura de datos.
+
+- ***Atributos***. Un atributo es una parte de información que se puede adjuntar a un
+vector o cualquier objeto de R. El atributo no afectará a ningún valor del objeto.
+
+Podríamos denominar a los atributos como metadata que describen
+características de los datos que contienen. Los atributos más comunes de un
+vector atómico son los nombres, dimensiones y clases.
+
+Como los vectores son la estructura de datos más sencilla de R, datos simples como
+el número 3, son en realidad vectores. En este caso, un vector de tipo numérico y
+largo igual a 1.
+
+```{r}
+x <- 3
+x
+```
+ notaremos la indicación [1], previa al valor asignado,
+indicando que el primer elemento del vector corresponde al primer elemento del
+renglón que se muestra. Esto es porque R, por defecto, crea vectores de longitud 1 para nuestra variable.
+
+Podemos verificar que un objeto es un vector utilizando la función  *is.vector()*
+
+```{r}
+is.vector(3)
+```
+### **Creación de vectores**
+
+#### **Creación de vectores usando la función combinar (o concatenar) c()**
+
+La única restricción es que los objetos a concatenar deben ser del mismo tipo.
+
+```{r}
+vect1 <- c(-3, 2, 5.5)
+
+cat(
+  vect1, "\n",
+  is.vector(vect1), "\n",
+  class(vect1), "\n",
+  typeof(vect1)
+)
+```
+
+```{r}
+vect2 <- c("Manzana", "Naranja", "Pera")
+vect2
+
+#verificar si es un vector
+is.vector(vect2)
+          
+#clase del vector
+class(vect2)
+
+#tipo de vector
+typeof(vect2)
+```
+*¿qué pasa si intentamos concatenar objetos que no son del mismo tipo?*
+
+R automáticamente transforma las componentes a un mismo tipo. En el caso del
+vector  z , los elementos que queremos concatenar son de tipo numérico y carácter.
+Luego (otra vez recordar de lo más restrictivo a lo más flexible)
+
+```{r}
+ vect3 <- c(FALSE, 5)
+
+vect3
+
+#verificar si es un vector
+is.vector(vect3)
+          
+#clase del vector
+class(vect3)
+
+#tipo de vector
+typeof(vect3)
+```
+#### **Concatenar dos o más vectores**
+
+```{r}
+v1 <- c(-2,4,6,9)
+v2 <- c(5,-5,2,0)
+
+v3 <- c(v1, v2)
+v3
+```
+Al concatenar vectores el orden importa
+
+```{r}
+v1 <- c(-2,4,6,9)
+v2 <- c(5,-5,2,0)
+
+v4 <-c(v2, v1)
+v4
+```
+```{r}
+v3 == v4
+```
+#### **Creación de vectores usando la función vector()**
+
+a función **vector()** crea un vector del tipo y longitud que se especifican como
+argumentos en el momento de su declaración:
+
+```{r}
+vec1 <- vector(mode = "numeric", length = 5)
+vec1
+
+vec2 <- vector(mode = "integer", length = 5)
+vec2
+
+vec3 <- vector(mode = "logical", length = 5)
+vec3
+
+vec4 <- vector(mode = "character", length = 5)
+vec4
+```
+Otra forma de crear vectores es hacer uso de las funciones wrapper (del inglés, envoltorio o
+contenedoras, es una función que llama a una o varias funciones, unas veces
+únicamente por convenio y otras para adaptarlas con el objetivo de hacer una tarea
+ligeramente diferente) que existen para cada tipo de datos. Las siguientes
+instrucciones son equivalentes a las anteriores:
+
+
+```{r}
+vector_numeric <- numeric(5)
+vector_numeric
+
+vector_integer <- integer(5)
+vector_integer
+
+vector_logical <- logical(5)
+vector_integer
+
+vector_character <- character(5)
+vector_character
+```
+### **Nombrar elementos de un vector**
+Para nombrar los elementos de un vector podemos usar dos métodos **setNames()**  o **names()**
+
+```{r}
+cantidades <- c(30, 63, 78, 82)
+articulos <- c("tv","laptop","tablet","phone")
+frutas <- c("manzanas","peras","naranjas","bananas")
+
+print(cantidades)
+
+print(articulos)
+
+setNames(cantidades, articulos)
+
+names(cantidades) <- frutas
+print(cantidades)
+
+```
+La diferencia entre usar  **names()** y **setNames()** está en que **names()** modifica el
+atributo names del vector original, mientras que  **setNames()** genera un nuevo objeto,
+copia del original, con el atributo names. Este último comportamiento se llama
+“copiar-al-modificar”.
+
+### **Acceder a los elementos de un vector**
+
+Acceder a los elementos de un vector implica poder seleccionar elementos únicos de
+un vector, como podría ser el primer o el último elemento, o cualquier subconjunto
+del vector; pero también reemplazar, cambiar o eliminar algunos elementos. Esto es
+conocido como indexing (del inglés, indexación) y se realiza mediante el uso de los
+corchetes  [] . Existen cuatro maneras diferentes de elegir una parte de un vector:
+
+#### **Mediante un vector numérico de índices**
+
+Los índices deben ser enteros y todos positivos o todos negativos.
+Seleccionar los elementos con enteros positivos extrae los elementos de las
+posiciones indicadas:
+
+```{r}
+v <- c('uno', 'dos', 'tres', 'cuatro', 'cinco', 'seis')
+
+# Primer elemento
+v[1]
+
+# último elemento
+n <- length(v)
+v[n]
+
+# Tercer y cuarto elemento
+v[c(3, 4)]
+
+# Primeros 3 elementos
+v[1:3]
+
+# posiciones pares
+v[seq(2, n, 2)]
+
+# posiciones impares
+v[seq(1, n, 2)]
+  
+v[-seq(2, n, 2)] # Equivalente
+
+```
+Los valores negativos eliminan los elementos en las posiciones especificadas:
+```{r}
+v[c(-1,-3,-5)] # que es lo mismo que v[-c(1,3,5)]
+```
+Pero no podemos mezclar valores positivos y negativos:
+
+v[c(-1,5)]
+
+Error in v[c(-1, 5)] : only 0's may be mixed with negative subscripts
+
+#### **Por medio de un vector lógico** 
+
+En este caso se accederá a todos los valores
+correspondientes al valor  TRUE . Este tipo es útil en conjunción con las funciones de
+comparación. Para ejemplificar, supongamos que tenemos los datos
+correspondientes a las edades de los empleados de una determinada empresa.
+
+```{r}
+numeros <- c(-10, 0, 2, 5, -11,7, -2, 12, -3)
+
+positivos <- numeros > 0
+negativos <- numeros < 0
+neutros <- numeros == 0
+numeros[positivos]
+numeros[negativos]
+numeros[neutros]
+```
+#### **Por el nombre de los elementos **  
+
+Si hemos dado nombre a los elementos del vector, podemos seleccionar sus
+elementos con un vector de tipo  character
+
+```{r}
+cantidades <- c("tv"=30, "laptop"=63, "tablet"=78, "phone"=82)
+cantidades[c("tv", "tablet")]
+```
+#### **Utilizando los corchetes**
+
+Utilizando los corchetes sin especificar ninguna posición,  [] , obtendremos el
+vector completo:
+
+```{r}
+numeros <- c(-10, 0, 2, 5, -11,7, -2, 12, -3)
+numeros[]
+```
+### **Eliminación de un vector**
+
+Si queremos eliminar un vector en R, podemos utilizar la función  **rm()**  (remove).
+
+```{r}
+v <- c(1,2,3,4,5,6)
+v
+rm(v)
+```
+```
+v
+Error: objeto 'v' no encontrado
+```
+
+
+
+
+
+
+
+ 
